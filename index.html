@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SestaCode / Aréna</title>
-<!-- Aréna v3.5 · 18. 11. 2026 · SestaCode · Martin Hejhal -->
+<!-- Aréna v4.0 · 18. 11. 2026 · SestaCode · Martin Hejhal -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
   --accent:#1F7A33;--accent-fg:#FFFFFF;--accent-soft:#11241A;--accent-text:#4AC26B;
   --text:#E6EDF3;--text-2:#C9D1D9;--muted:#9198A1;
   --bg-app:#161B22;--bg-work:#0D1117;--bg-canvas:#12171E;--bg-subtle:#21262D;--border:#30363D;
-  --danger:#F85149;--coin:#D29922;--coin-b:#9E6A03;--wall:#2D333B;--wall-b:#444C56;
+  --danger:#F85149;--coin:#D29922;--coin-b:#9E6A03;--wall:#4A525D;--wall-b:#6E7681;--cell:#1F252E;--cell-b:#3D4550;--grid:#0D1117;
   --seq-bg:#0C2138;--seq-b:#1F6FEB;--seq-t:#79C0FF;
-  --rep-bg:#2A1A0C;--rep-b:#9A4F12;--rep-t:#FFA657;
+  --rep-bg:#2A1A0C;--rep-b:#9A4F12;--rep-t:#FFA657;--if-bg:#221637;--if-b:#8957E5;--if-t:#D2A8FF;
   --p0:#4AC26B;--p1:#39C5CF;--p2:#F778BA;--p3:#FF7B72;--p4:#79C0FF;--p5:#E3B341;--p6:#D2A8FF;--p7:#FFA657;--p8:#C9D1D9;--p9:#C69C6D;--p10:#A371F7;--p11:#3FB9A0;--p12:#8B949E;--p13:#E5534B;
   --on-p:#0D1117;
 }
@@ -23,9 +23,9 @@
   --accent:#116329;--accent-fg:#FFFFFF;--accent-soft:#E3F2E7;--accent-text:#116329;
   --text:#1F2328;--text-2:#424A53;--muted:#59636E;
   --bg-app:#FFFFFF;--bg-work:#F6F8FA;--bg-canvas:#FFFFFF;--bg-subtle:#EFF2F5;--border:#D8DEE4;
-  --danger:#CF222E;--coin:#D4A72C;--coin-b:#9A6700;--wall:#D0D7DE;--wall-b:#AFB8C1;
+  --danger:#CF222E;--coin:#D4A72C;--coin-b:#9A6700;--wall:#AEB8C2;--wall-b:#8C959F;--cell:#EDF0F3;--cell-b:#C3CBD3;--grid:#DCE1E6;
   --seq-bg:#DDF4FF;--seq-b:#54AEFF;--seq-t:#0550AE;
-  --rep-bg:#FFF1E5;--rep-b:#FB8F44;--rep-t:#953800;
+  --rep-bg:#FFF1E5;--rep-b:#FB8F44;--rep-t:#953800;--if-bg:#FBEFFF;--if-b:#C297FF;--if-t:#6639BA;
   --p0:#1A7F37;--p1:#1B7C83;--p2:#BF3989;--p3:#CF222E;--p4:#0969DA;--p5:#9A6700;--p6:#8250DF;--p7:#BC4C00;--p8:#424A53;--p9:#7D4E24;--p10:#6E40C9;--p11:#0A7B6A;--p12:#6E7781;--p13:#A40E26;
   --on-p:#FFFFFF;
 }
@@ -87,7 +87,18 @@ body.demo .demo-badge{display:inline-block}
 .s-status.run{background:var(--rep-bg);color:var(--rep-t)}
 
 /* ===== Editor (společný) ===== */
-.palette{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;border-radius:9px}
+.palette{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.palette.trash{border-radius:9px}
+.steps{font-size:12px;color:var(--muted);white-space:nowrap;text-align:right;line-height:1.2}
+.steps b{font-size:15px;font-weight:600;color:var(--muted)}
+.steps.over,.steps.over b{color:var(--danger)}
+.tools{display:flex;align-items:center;gap:8px;width:100%;flex-wrap:wrap;justify-content:space-between}
+.tools .grp{display:flex;align-items:center;gap:6px}
+.tools .btn{height:34px;font-size:13px;padding:0 12px}
+.tools .stepl{font-size:13px;color:var(--muted);min-width:96px;text-align:center}
+.tools .stepl b{color:var(--text);font-weight:600}
+.sheet.full .tools{display:none}
+.btn.danger{color:var(--danger);border-color:var(--danger);background:transparent}
 .pal{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 13px;border-radius:8px;border:1px solid;font-size:14px;font-weight:600;cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .pal svg.i{width:16px;height:16px}
 .palette.trash{outline:2px dashed var(--danger);outline-offset:4px}
@@ -116,6 +127,25 @@ body.demo .demo-badge{display:inline-block}
 .blk.drop-top::before,.blk.drop-bot::after{content:"";position:absolute;left:-4px;right:-4px;height:3px;border-radius:2px;background:var(--accent-text)}
 .blk.drop-top::before{top:-5px}.blk.drop-bot::after{bottom:-5px}
 .inner{margin-left:20px;padding:4px 0 4px 10px;border-left:2px solid var(--rep-b);display:flex;flex-direction:column;gap:6px}
+.inner.if{border-left-color:var(--if-b)}
+.c-if{background:var(--if-bg);border-color:var(--if-b);color:var(--if-t)}
+.coin.big{left:17%;top:17%;width:66%;height:66%;display:flex;align-items:center;justify-content:center;font-size:var(--sf,10px);font-weight:800;color:#fff}
+.knife{position:absolute;left:14%;top:14%;width:72%;height:72%;fill:#C9D1D9;stroke:#6E7681;stroke-width:1;stroke-linejoin:round}
+.bot svg.kb{position:absolute;right:-12%;top:-12%;width:44%;height:44%;display:none;fill:#E6EDF3;stroke:#0D1117;stroke-width:1.2;stroke-linejoin:round;transform:none;overflow:visible}
+.bot.has-knife svg.kb{display:block}
+.prow .kn{width:15px;height:15px;fill:var(--text-2);flex:none}
+.prow.out .chip{text-decoration:line-through}
+.btn.beast{border-color:#2EA043;color:#2EA043;background:transparent;font-weight:700}
+#vTeacher.beast .btn.beast{background:#2EA043;color:#000}
+#vTeacher.beast .sheet{background:#000;border-color:#1A7F37}
+#vTeacher.beast .board{background:#000;border-color:#1A7F37}
+#vTeacher.beast .cell{background:#000;border-color:#1E7F3A}
+#vTeacher.beast .cell.wall{background:#0B2A14;border-color:#2EA043;background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(46,160,67,.3) 6px 7px)}
+#vTeacher.beast .bot .arw path{fill:#2EA043!important;stroke-width:13}
+#vTeacher.beast .bot .lab{color:#000}
+#vTeacher.beast .coin{background:radial-gradient(circle at 34% 30%,#FFB3C1 0 12%,#B0243F 34%,#6A1024 72%,#3E0714 100%);border-color:#2A0510}
+#vTeacher.beast .legend,#vTeacher.beast .tools .stepl{color:#3FB950}
+#vTeacher.beast .count{background:rgba(0,0,0,.5);color:#3FB950}
 .tag{font-size:11px;color:var(--muted)}
 .add{min-height:38px;border:1px dashed var(--border);border-radius:8px;display:flex;align-items:center;padding:0 12px;font-size:13px;color:var(--muted);cursor:pointer;background:transparent;text-align:left;width:100%}
 .add:hover{border-color:var(--muted)}
@@ -148,9 +178,9 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
 .joinurl b{color:var(--text);font-size:15px}
 .sheet.full .joinurl{display:none}
 .boardwrap{display:flex;flex-direction:column;align-items:center;gap:10px}
-.board{position:relative;background:var(--bg-work);border:1px solid var(--border);border-radius:12px;display:grid;padding:var(--pad);gap:var(--gap)}
-.cell{background:var(--bg-app);border-radius:5px;position:relative;border:1px solid var(--border)}
-.cell.wall{background:var(--wall);border-color:var(--wall-b);background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(127,127,127,.12) 6px 7px)}
+.board{position:relative;background:var(--grid);border:1px solid var(--border);border-radius:12px;display:grid;padding:var(--pad);gap:var(--gap)}
+.cell{background:var(--cell);border-radius:5px;position:relative;border:1px solid var(--cell-b)}
+.cell.wall{background:var(--wall);border-color:var(--wall-b);background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(127,127,127,.18) 6px 7px)}
 .coin{position:absolute;left:32%;top:32%;width:36%;height:36%;border-radius:50%;background:var(--coin);border:2px solid var(--coin-b)}
 .tr{position:absolute;width:3px;height:3px;border-radius:50%;opacity:.75}
 .bot{position:absolute;width:var(--c);height:var(--c);transition:left .22s ease,top .22s ease;pointer-events:none;z-index:3}
@@ -164,7 +194,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
 .bot svg.crown{position:absolute;left:50%;top:-30%;width:50%;height:auto;transform:translateX(-50%);display:none;fill:#FFD33D;stroke:#7D5A00;stroke-width:1.2;stroke-linejoin:round;overflow:visible}
 .bot.lead{z-index:5}.bot.lead svg.crown{display:block}
 .crown-i{width:14px;height:10px;fill:#FFD33D;stroke:#7D5A00;stroke-width:1.2;stroke-linejoin:round;flex:none}
-.legend{font-size:12px;color:var(--muted)}
+.legend{font-size:12px;color:var(--muted);margin-right:6px}
 .count{position:absolute;left:0;top:0;right:0;bottom:0;display:none;align-items:center;justify-content:center;z-index:70;font-size:min(34vh,260px);font-weight:800;color:var(--text);background:rgba(13,17,23,.45)}
 [data-theme="light"] .count{background:rgba(255,255,255,.55)}
 .count.on{display:flex}
@@ -236,10 +266,10 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
         <div class="prog" id="tutProg"></div>
       </div>
       <div id="tutMsg"></div>
-      <div style="margin-top:12px;display:flex;gap:8px"><button class="btn primary" id="tutRun"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Spustit</button><button class="btn" id="tutAgain" style="display:none">Opakovat</button></div>
+      <div style="margin-top:12px;display:flex;gap:8px"><button class="btn primary" id="tutRun"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Spustit</button><button class="btn" id="tutAgain" style="display:none">Opakovat</button><span class="steps" id="tutSteps" style="margin-left:auto;align-self:center"></span></div>
     </div>
     <button class="sprava" id="toTeacher">Správa</button>
-    <div class="s-foot">Aréna · 2026 · verze 3.5 · Created by Martin Hejhal.</div>
+    <div class="s-foot">Aréna · 2026 · verze 4.0 · Created by Martin Hejhal.</div>
   </div>
 </div>
 
@@ -249,6 +279,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
   <div class="s-head"><div class="s-head-in">
     <div class="me-tok" id="sTok"></div>
     <div class="s-info"><b id="sTitle">Kolo 1</b><small id="sSub">0 mincí</small></div>
+    <span class="steps" id="gSteps"></span>
     <button class="btn primary" id="sendBtn">Odeslat</button>
   </div></div>
   <div class="s-wrap">
@@ -260,7 +291,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
         <div id="gPy"></div>
       </div>
     </div>
-    <div class="s-foot">Aréna · 2026 · verze 3.5 · Created by Martin Hejhal. <span class="demo-badge">ukázkový režim</span></div>
+    <div class="s-foot">Aréna · 2026 · verze 4.0 · Created by Martin Hejhal. <span class="demo-badge">ukázkový režim</span></div>
   </div>
 </div>
 
@@ -287,12 +318,17 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
     </aside>
     <div class="work">
       <div class="area"><div class="sheet" id="tSheet">
-        <div class="boardwrap"><div class="board" id="tBoard"></div><div class="legend" id="tLegend"></div></div>
+        <div class="boardwrap"><div class="board" id="tBoard"></div>
+          <div class="tools">
+            <div class="grp"><button class="btn" id="rpPrev" title="Předchozí krok (←)" aria-label="Předchozí krok"><svg class="i" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button><span class="stepl" id="rpLabel"></span><button class="btn" id="rpNext" title="Další krok (→)" aria-label="Další krok"><svg class="i" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button></div>
+            <div class="grp"><span class="legend" id="tLegend"></span><button class="btn" id="tbShuffle">Zamíchat mince</button><button class="btn" id="tbNew">Nová hra</button><button class="btn" id="tbNewKick">Nová hra a odhlásit žáky</button><button class="btn beast" id="tbBeast">Beast Mode</button><button class="btn danger" id="tbEnd">Konec</button></div>
+          </div>
+        </div>
         <div class="count" id="tCountdown"></div>
       </div></div>
     </div>
   </div>
-  <div class="t-foot">Aréna · 2026 · verze 3.5 · Created by Martin Hejhal.</div>
+  <div class="t-foot">Aréna · 2026 · verze 4.0 · Created by Martin Hejhal.</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -308,7 +344,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
 
 <script>
 /* ===================== Konfigurace ===================== */
-const VERSION='3.5';
+const VERSION='4.0';
 const FB_CONFIG={
   apiKey:"AIzaSyAdlrwhz0dkTKl9pYi6VYe1fxENhNM7J0o",
   authDomain:"sestacode-arena.firebaseapp.com",
@@ -321,7 +357,7 @@ const FB_VER='10.12.2';
 const HESLO='informatika';
 const DEMO=/[?&]demo=1/.test(location.search)||location.protocol==='file:';
 if(DEMO)document.body.classList.add('demo');
-const DEF_SET={map:0,bots:0,botLvl:'mix',maxBlocks:8,maxSteps:12,forMax:3,speed:600,python:false};
+const DEF_SET={map:0,bots:0,botLvl:'mix',maxBlocks:8,maxSteps:25,forMax:3,speed:600,python:false,sv:36};
 const LVL={zacatecnik:'Začátečník',stredni:'Střední',chytry:'Chytrý'};
 const ls={get(k,d){try{const v=localStorage.getItem('scode:arena:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('scode:arena:'+k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem('scode:arena:'+k)}catch(e){}}};
 const ss={get(k,d){try{const v=sessionStorage.getItem('scode:arena:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{sessionStorage.setItem('scode:arena:'+k,JSON.stringify(v))}catch(e){}},del(k){try{sessionStorage.removeItem('scode:arena:'+k)}catch(e){}}};
@@ -338,6 +374,7 @@ const IC={
   L:'<path d="M9 14L4 9l5-5M4 9h10a6 6 0 0 1 6 6v5"/>',
   R:'<path d="M15 14l5-5-5-5M20 9H10a6 6 0 0 0-6 6v5"/>',
   REP:'<path d="M4 12V9a3 3 0 0 1 3-3h13M17 3l3 3-3 3M20 12v3a3 3 0 0 1-3 3H4M7 21l-3-3 3-3"/>',
+  IF:'<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M6 3v12.5M18 8.5a9 9 0 0 1-9 9"/>',
   up:'<path d="M18 15l-6-6-6 6"/>',down:'<path d="M6 9l6 6 6-6"/>',x:'<path d="M18 6L6 18M6 6l12 12"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
   play:'<path d="M7 4v16l13-8z"/>',refresh:'<path d="M20 11A8 8 0 0 0 4.6 8M4 4v4h4M4 13a8 8 0 0 0 15.4 3M20 20v-4h-4"/>',
@@ -350,27 +387,29 @@ const ic=(n,cls='i')=>`<svg class="${cls}" viewBox="0 0 24 24">${IC[n]}</svg>`;
 const ARROW='M50 5 L94 44 L94 94 L6 94 L6 44 Z';
 const CROWN='<svg class="crown" viewBox="0 0 24 16"><path d="M2 14h20l-1.5-10-5 4.5L12 1 8.5 8.5l-5-4.5z"/></svg>';
 const crownI='<svg class="crown-i" viewBox="0 0 24 16"><path d="M2 14h20l-1.5-10-5 4.5L12 1 8.5 8.5l-5-4.5z"/></svg>';
-const NAME={F:'Move',L:'Turn L',R:'Turn R',REP:'For'};
-const CLS={F:'c-seq',L:'c-seq',R:'c-seq',REP:'c-rep'};
+const NAME={F:'Move',L:'Turn L',R:'Turn R',REP:'For',IF:'If wall'};
+const KNIFE_P='M20.5 3c1 3.5-3 9.5-9.5 12.5l-2.5-2.5zM9 13.5l2.5 2.5-5 5a1.6 1.6 0 0 1-2.5-2.5z';
+const knifeSvg=(cls)=>`<svg class="${cls}" viewBox="0 0 24 24"><path d="${KNIFE_P}"/></svg>`;
+const CLS={F:'c-seq',L:'c-seq',R:'c-seq',REP:'c-rep',IF:'c-if'};
 const ACT=['F','L','R'];
 
 /* ===================== Mapy a svět ===================== */
 const MAPS=[
-  {name:'Náměstí',walls:[[2,2],[3,2],[5,3],[5,4],[7,1]],coins:[[1,1],[3,0],[4,2],[2,4],[6,0],[3,3],[6,4],[1,3],[7,3],[7,2],[0,1],[2,3],[4,4],[6,2]]},
-  {name:'Bludiště',walls:[[2,1],[3,1],[4,1],[2,3],[3,3],[6,2],[6,3],[6,4]],coins:[[1,2],[3,2],[5,2],[4,4],[1,4],[0,2],[5,0],[2,0],[7,1],[7,4],[0,1],[2,2],[5,4],[3,4]]},
-  {name:'Ostrovy',walls:[[2,1],[3,1],[2,2],[5,3],[6,3],[5,4],[7,4]],coins:[[3,2],[1,1],[5,0],[6,1],[4,4],[1,4],[6,2],[3,4],[7,2],[7,1],[0,1],[4,2],[1,3],[5,1]]}
+  {name:'Náměstí',walls:[[2,2],[3,2],[5,3],[5,4],[7,1]],coins:[[1,1],[3,0],[4,2],[2,4],[6,0],[3,3],[6,4],[1,3],[7,3],[7,2],[0,1],[2,3],[4,4],[6,2]],big:[[6,4]],knife:[[4,3]]},
+  {name:'Bludiště',walls:[[2,1],[3,1],[4,1],[2,3],[3,3],[6,2],[6,3],[6,4]],coins:[[1,2],[3,2],[5,2],[4,4],[1,4],[0,2],[5,0],[2,0],[7,1],[7,4],[0,1],[2,2],[5,4],[3,4]],big:[[5,4]],knife:[[4,3]]},
+  {name:'Ostrovy',walls:[[2,1],[3,1],[2,2],[5,3],[6,3],[5,4],[7,4]],coins:[[3,2],[1,1],[5,0],[6,1],[4,4],[1,4],[6,2],[3,4],[7,2],[7,1],[0,1],[4,2],[1,3],[5,1]],big:[[4,4]],knife:[[4,3]]}
 ];
 const GW=15,GH=10;
 function mirror(list,W,H){const s=new Set();for(const [x,y] of list)for(const [a,b] of [[x,y],[W-1-x,y],[x,H-1-y],[W-1-x,H-1-y]])s.add(a+','+b);return s}
 const BOTS=[['Alfa','AL'],['Beta','BE'],['Gama','GA'],['Delta','DE'],['Epsilon','EP'],['Zéta','ZE'],['Éta','ET'],['Théta','TH'],['Ióta','IO'],['Kappa','KA'],['Lambda','LA'],['Mí','MI'],['Ný','NY']];
 const DX=[0,1,0,-1],DY=[-1,0,1,0];
 function blocked(w,x,y){return x<0||y<0||x>=w.W||y>=w.H||w.walls.has(x+','+y)}
-function robotAt(w,x,y){return w.robots.find(r=>r.x===x&&r.y===y)}
+function robotAt(w,x,y){return w.robots.find(r=>!r.out&&r.x===x&&r.y===y)}
 
 /* ===================== Program ===================== */
 let NID=1;
 const mk=(t,o={})=>Object.assign({id:NID++,t},o);
-function cost(b){if(b.t==='REP')return 1+Math.max(1,countBlocks(b.body));return 1}
+function cost(b){if(b.t==='REP'||b.t==='IF')return 1+Math.max(1,countBlocks(b.body));return 1}
 function countBlocks(list){let n=0;for(const b of list)n+=cost(b);return n}
 function findNode(list,id){for(const b of list){if(b.id===id)return b;if(b.body){const f=findNode(b.body,id);if(f)return f}}return null}
 function findParent(list,id,key='main'){for(let i=0;i<list.length;i++){const b=list[i];if(b.id===id)return {list,i,key};if(b.body){const f=findParent(b.body,id,b.id+':body');if(f)return f}}return null}
@@ -378,28 +417,37 @@ function path(list,id,acc=[]){for(const b of list){if(b.id===id)return [...acc,b
 function containerIn(prog,key){if(key==='main')return prog;const n=findNode(prog,+key.split(':')[0]);return n?n.body:null}
 function forDepth(b){if(b.t==='REP')return 1+Math.max(0,...b.body.map(forDepth));return 0}
 function keyDepth(prog,key){if(key==='main')return 0;return (path(prog,+key.split(':')[0])||[]).filter(b=>b.t==='REP').length}
-function freshNode(t){return t==='REP'?mk('REP',{n:3,body:[]}):mk(t)}
-function strip(list){return list.map(b=>b.t==='REP'?{t:'REP',n:b.n,body:strip(b.body)}:{t:b.t})}
-function withIds(list){return list.map(b=>b.t==='REP'?mk('REP',{n:b.n,body:withIds(b.body||[])}):mk(b.t))}
+function freshNode(t){return t==='REP'?mk('REP',{n:3,body:[]}):t==='IF'?mk('IF',{body:[]}):mk(t)}
+function stepsOf(list){let n=0;for(const b of list)n+=b.t==='REP'?b.n*stepsOf(b.body):b.t==='IF'?stepsOf(b.body):1;return n}
+function strip(list){return list.map(b=>b.t==='REP'?{t:'REP',n:b.n,body:strip(b.body)}:b.t==='IF'?{t:'IF',body:strip(b.body)}:{t:b.t})}
+function withIds(list){return list.map(b=>b.t==='REP'?mk('REP',{n:b.n,body:withIds(b.body||[])}):b.t==='IF'?mk('IF',{body:withIds(b.body||[])}):mk(b.t))}
 /* bezpečné převzetí programu od žáka */
 function sanitize(raw,set){
   let list;try{list=typeof raw==='string'?JSON.parse(raw):raw}catch(e){return []}
   const clean=(l,depth)=>{const out=[];if(!Array.isArray(l))return out;for(const b of l.slice(0,40)){if(!b)continue;
     if(ACT.includes(b.t))out.push(mk(b.t));
+    else if(b.t==='IF'&&set.beast){out.push(mk('IF',{body:clean(b.body,depth+1).filter(x=>ACT.includes(x.t)).slice(0,1)}))}
     else if(b.t==='REP'&&depth<2){out.push(mk('REP',{n:Math.max(2,Math.min(9,parseInt(b.n)||2)),body:clean(b.body,depth+1).slice(0,set.forMax)}))}}return out};
   const all=clean(list,0);const res=[];let used=0;for(const b of all){const c=cost(b);if(used+c>set.maxBlocks)break;res.push(b);used+=c}return res;
 }
-function* exec(list,w,ri){for(const n of list){if(n.t==='REP'){for(let k=0;k<n.n;k++)yield* exec(n.body,w,ri)}else yield n}}
+function* exec(list,w,ri){for(const n of list){if(n.t==='REP'){for(let k=0;k<n.n;k++)yield* exec(n.body,w,ri)}else if(n.t==='IF'){const r=w.robots[ri];if(blocked(w,r.x+DX[r.d],r.y+DY[r.d]))yield* exec(n.body,w,ri)}else yield n}}
 function stepWorld(w,acts,order,ev){
-  const collect=r=>{const k=r.x+','+r.y;if(w.coins.has(k)){w.coins.delete(k);r.score++;ev&&ev.push({t:'coin',a:r.i})}};
+  const collect=r=>{const k=r.x+','+r.y;
+    if(w.coins.has(k)){w.coins.delete(k);const v=w.big&&w.big.has(k)?4:1;if(v>1)w.big.delete(k);r.score+=v;ev&&ev.push({t:'coin',a:r.i})}
+    if(w.knives&&w.knives.has(k)){w.knives.delete(k);r.knife=true;ev&&ev.push({t:'knife',a:r.i})}};
   for(const i of order){
-    const a=acts[i];if(!a)continue;const r=w.robots[i];
+    const a=acts[i];if(!a)continue;const r=w.robots[i];if(r.out)continue;
     if(a.t==='L'){r.d=(r.d+3)%4;r.rot-=90}
     else if(a.t==='R'){r.d=(r.d+1)%4;r.rot+=90}
     else{
       const tx=r.x+DX[r.d],ty=r.y+DY[r.d];
       if(blocked(w,tx,ty)){ev&&ev.push({t:'bump',a:i});continue}
       const o=robotAt(w,tx,ty);
+      if(o&&(r.knife||o.knife)){
+        if(r.knife&&o.knife){r.knife=false;o.knife=false;ev&&ev.push({t:'clash',a:i,b:o.i});continue}
+        if(r.knife){o.out=true;ev&&ev.push({t:'kill',a:i,b:o.i});r.x=tx;r.y=ty;collect(r);continue}
+        r.out=true;ev&&ev.push({t:'kill',a:o.i,b:i});continue;
+      }
       if(o){
         if(r.score<o.score){ev&&ev.push({t:'weak',a:i,b:o.i});continue}
         const px=tx+DX[r.d],py=ty+DY[r.d];
@@ -413,15 +461,20 @@ function stepWorld(w,acts,order,ev){
 
 /* ===================== Editor (žák i simulátor) ===================== */
 const ED={
-  tut:{key:'tut',prog:[],target:'main',max:6,forMax:3,locked:false,pal:'tutPal',el:'tutProg',hint:'tutHint',py:null,python:false,root:'edTut'},
-  game:{key:'game',prog:[],target:'main',max:8,forMax:3,locked:false,pal:'gPal',el:'gProg',hint:'gHint',py:'gPy',python:false,root:'edGame',onChange:()=>studentChanged()}
+  tut:{steps:'tutSteps',maxSteps:12,key:'tut',prog:[],target:'main',max:6,forMax:3,locked:false,pal:'tutPal',el:'tutProg',hint:'tutHint',py:null,python:false,root:'edTut'},
+  game:{steps:'gSteps',maxSteps:25,key:'game',prog:[],target:'main',max:8,forMax:3,locked:false,pal:'gPal',el:'gProg',hint:'gHint',py:'gPy',python:false,root:'edGame',onChange:()=>studentChanged()}
 };
 function container(ctx,key){return containerIn(ctx.prog,key)}
 function canPlace(ctx,node,key,isMove){
   const list=container(ctx,key);if(!list)return 'Sem příkaz nejde vložit.';
   if(isMove&&key!=='main'){const kid=+key.split(':')[0];if(kid===node.id||findNode([node],kid))return 'Cyklus nejde vložit sám do sebe.'}
   const others=list.filter(b=>b.id!==node.id).length;
-  if(key!=='main'){
+  if(!isMove&&node.t==='IF'&&!ctx.beast)return 'If wall je jen v Beast Mode.';
+  const owner=key==='main'?null:findNode(ctx.prog,+key.split(':')[0]);
+  if(owner&&owner.t==='IF'){
+    if(!ACT.includes(node.t))return 'Do If wall patří jen Move, Turn R nebo Turn L.';
+    if(others>=1)return 'Do If wall se vejde jen jeden příkaz.';
+  }else if(key!=='main'){
     if(others>=ctx.forMax)return `Do jednoho cyklu se vejdou nejvýš ${ctx.forMax} příkazy.`;
     if(keyDepth(ctx.prog,key)+forDepth(node)>2)return 'Cyklus jde do cyklu vnořit jen jednou.';
   }
@@ -434,11 +487,12 @@ function placeOp(prog,node,key,idx,moveId){
   if(moveId!=null){const p=findParent(prog,moveId);node=p.list.splice(p.i,1)[0];const tl=containerIn(prog,key);if(p.list===tl&&p.i<idx)idx--}
   const list=containerIn(prog,key);list.splice(Math.min(idx,list.length),0,node);return node;
 }
+function limitOf(ctx,key){if(key==='main')return 1e9;const o=findNode(ctx.prog,+key.split(':')[0]);return o&&o.t==='IF'?1:ctx.forMax}
 function afterAdd(ctx,node,key){
-  if(node.t==='REP'){ctx.target=node.id+':body';return}
-  if(key==='main'||container(ctx,key).length<ctx.forMax)return;
+  if(node.t==='REP'||node.t==='IF'){ctx.target=node.id+':body';return}
+  if(key==='main'||container(ctx,key).length<limitOf(ctx,key))return;
   const p=findParent(ctx.prog,+key.split(':')[0]);ctx.target=p?p.key:'main';
-  if(ctx.target!=='main'&&container(ctx,ctx.target).length>=ctx.forMax)ctx.target='main';
+  if(ctx.target!=='main'&&container(ctx,ctx.target).length>=limitOf(ctx,ctx.target))ctx.target='main';
 }
 function changed(ctx){renderEditor(ctx);ctx.onChange&&ctx.onChange()}
 function addBlock(ctx,t){
@@ -475,6 +529,9 @@ function renderList(ctx,list,key,ro){
       const n=edit?`<button class="mini" data-a="minus" data-id="${b.id}" aria-label="Méně">${ic('minus')}</button><span class="val">${b.n}</span><button class="mini" data-a="plus" data-id="${b.id}" aria-label="Více">${ic('plus')}</button>`:`<b>${b.n}</b>`;
       h+=`<div class="blk c-rep" ${at}>${hdl}${ic('REP')}<span class="lbl">For ${n}${edit?'':'×'}</span>${rowActs(b,edit)}</div>`;
       h+=`<div class="inner">${renderList(ctx,b.body,b.id+':body',ro)}${edit&&b.body.length<ctx.forMax?`<button class="add${ctx.target===b.id+':body'?' sel':''}" data-k="${b.id}:body" data-idx="${b.body.length}">+ (${b.body.length}/${ctx.forMax})</button>`:''}${ro&&!b.body.length?'<div class="tag">(prázdné)</div>':''}</div>`;
+    }else if(b.t==='IF'){
+      h+=`<div class="blk c-if" ${at}>${hdl}${ic('IF')}<span class="lbl">If wall</span>${rowActs(b,edit)}</div>`;
+      h+=`<div class="inner if">${renderList(ctx,b.body,b.id+':body',ro)}${edit&&!b.body.length?`<button class="add${ctx.target===b.id+':body'?' sel':''}" data-k="${b.id}:body" data-idx="0">+ (0/1)</button>`:''}${ro&&!b.body.length?'<div class="tag">(prázdné)</div>':''}</div>`;
     }else h+=`<div class="blk ${CLS[b.t]}${act}" ${at}>${hdl}${ic(b.t)}<span class="lbl">${NAME[b.t]}</span>${rowActs(b,edit)}</div>`;
     h+='</div>';
   });
@@ -482,16 +539,18 @@ function renderList(ctx,list,key,ro){
 }
 function renderEditor(ctx){
   $(ctx.root).classList.toggle('locked',ctx.locked);
-  $(ctx.pal).innerHTML=['F','R','L','REP'].map(t=>`<button class="pal ${CLS[t]}" data-add="${t}" data-drag="add">${ic(t)}${NAME[t]}</button>`).join('');
+  $(ctx.pal).innerHTML=['F','R','L','REP'].concat(ctx.beast?['IF']:[]).map(t=>`<button class="pal ${CLS[t]}" data-add="${t}" data-drag="add">${ic(t)}${NAME[t]}</button>`).join('');
   const used=countBlocks(ctx.prog);
   let h=renderList(ctx,ctx.prog,'main',ctx.locked);
   if(!ctx.locked){const free=Math.max(0,ctx.max-used);for(let k=0;k<free;k++)h+=`<button class="add${ctx.target==='main'?' sel':''}" data-k="main" data-idx="${ctx.prog.length}">${used+k+1}</button>`}
   if(ctx.locked&&!ctx.prog.length)h='<div class="hint">Program je prázdný.</div>';
   $(ctx.el).innerHTML=h;
+  if(ctx.steps){const k=stepsOf(ctx.prog),mx=ctx.maxSteps;const el=$(ctx.steps);el.className='steps'+(k>mx?' over':'');el.innerHTML=`<b>${k} / ${mx}</b><br>kroků`;el.title=k>mx?`Program má ${k} kroků, provede se jen prvních ${mx}.`:''}
   if(ctx.py)$(ctx.py).innerHTML=ctx.python?`<div class="code mono">${pyHtml(ctx.prog)}</div>`:'';
 }
 function py(list,ind){if(!list.length)return ind+'<span class="kw">pass</span>\n';let s='';
   for(const b of list){if(b.t==='F')s+=ind+'<span class="fn">forward</span>()\n';else if(b.t==='L')s+=ind+'<span class="fn">turn_left</span>()\n';else if(b.t==='R')s+=ind+'<span class="fn">turn_right</span>()\n';
+    else if(b.t==='IF')s+=`${ind}<span class="kw">if</span> <span class="fn">wall_ahead</span>():\n`+py(b.body,ind+'    ');
     else s+=`${ind}<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(${b.n}):\n`+py(b.body,ind+'    ')}return s}
 function pyHtml(list){return list.length?py(list,'').trimEnd():'<span class="cm"># empty program</span>'}
 
@@ -513,7 +572,7 @@ function dropTargetAt(ctx,x,y){
   const t=el.closest('.blk,.add');if(!t||!progEl.contains(t))return null;
   if(t.classList.contains('add'))return {el:t,key:t.dataset.k,idx:+t.dataset.idx,cls:'drop-in'};
   const r=t.getBoundingClientRect(),lower=y>r.top+r.height/2;
-  if(lower&&t.dataset.t==='REP')return {el:t,key:t.dataset.id+':body',idx:0,cls:'drop-bot'};
+  if(lower&&(t.dataset.t==='REP'||t.dataset.t==='IF'))return {el:t,key:t.dataset.id+':body',idx:0,cls:'drop-bot'};
   return {el:t,key:t.dataset.k,idx:+t.dataset.idx+(lower?1:0),cls:lower?'drop-bot':'drop-top'};
 }
 function clearDrop(){document.querySelectorAll('.drop-top,.drop-bot,.drop-in').forEach(e=>e.classList.remove('drop-top','drop-bot','drop-in'));document.querySelectorAll('.palette.trash').forEach(e=>e.classList.remove('trash'))}
@@ -601,15 +660,18 @@ function Board(el,W,H){
     const tm={};(trails||[]).forEach((t,i)=>t.forEach(k=>{(tm[k]=tm[k]||new Set()).add(i)}));
     const n=w.robots.length||1;
     for(let y=0;y<H;y++)for(let x=0;x<W;x++){const k=x+','+y,c=b.cells[y*W+x];c.className='cell'+(w.walls.has(k)?' wall':'');
-      let h=w.coins.has(k)?'<span class="coin"></span>':'';
+      let h=w.coins.has(k)?(w.big&&w.big.has(k)?'<span class="coin big">4</span>':'<span class="coin"></span>'):'';
+      if(w.knives&&w.knives.has(k))h+=knifeSvg('knife');
       if(tm[k])for(const i of tm[k]){const a=i/n*2*Math.PI,r=w.robots[i];if(!r)continue;h+=`<span class="tr" style="background:${colorOf(r.ci)};left:calc(50% + ${Math.round(Math.sin(a)*38)}% - 1.5px);top:calc(50% - ${Math.round(Math.cos(a)*38)}% - 1.5px)"></span>`}
       c.innerHTML=h}
-    const ids=new Set(w.robots.map(r=>r.id));
+    const ids=new Set(w.robots.filter(r=>!r.out).map(r=>r.id));
     for(const id in b.toks)if(!ids.has(id)){b.toks[id].remove();delete b.toks[id]}
     const k=b.cell*0.08;
     w.robots.forEach((r,i)=>{
+      if(r.out)return;
       let e=b.toks[r.id];
-      if(!e){e=document.createElement('div');e.className='bot';e.innerHTML=`<svg class="arw" viewBox="0 0 100 100"><path d="${ARROW}"/></svg><span class="lab"><b></b><small></small></span>${CROWN}`;el.appendChild(e);b.toks[r.id]=e}
+      if(!e){e=document.createElement('div');e.className='bot';e.innerHTML=`<svg class="arw" viewBox="0 0 100 100"><path d="${ARROW}"/></svg><span class="lab"><b></b><small></small></span>${CROWN}${knifeSvg('kb')}`;el.appendChild(e);b.toks[r.id]=e}
+      e.classList.toggle('has-knife',!!r.knife);
       const p=e.querySelector('path');p.style.fill=colorOf(r.ci);p.style.stroke=colorOf(r.ci);
       e.querySelector('.lab b').textContent=r.label;e.querySelector('.lab small').textContent=showScore?r.score:'';
       e.style.left=(b.pad+r.x*(b.cell+b.gap))+'px';e.style.top=(b.pad+r.y*(b.cell+b.gap))+'px';
@@ -732,7 +794,7 @@ function startStudent(){
   show('vStudent');window.scrollTo(0,0);
   ST.round=null;ST.sent=false;ST.dirty=false;
   ST.unsub.push(B.onMain(m=>{ST.main=m;studentMain()}));
-  ST.unsub.push(B.onPlayer(ST.id,p=>{if(!p&&ST.id)leaveStudent('Učitel tě odhlásil ze hry.')}));
+  ST.unsub.push(B.onPlayer(ST.id,p=>{if(!p&&ST.id)leaveStudent(ST.main&&ST.main.phase==='closed'?'Hra skončila.':'Učitel tě odhlásil ze hry.')}));
   clearInterval(ST.beatT);ST.beatT=setInterval(()=>{if(ST.id)B.beat(ST.id)},45000);
   studentMain();
 }
@@ -743,20 +805,22 @@ function leaveStudent(msg){
 }
 function studentMain(){
   const m=ST.main,ctx=ED.game;
-  if(m&&m.settings){ctx.max=m.settings.maxBlocks;ctx.forMax=m.settings.forMax;ctx.python=!!m.settings.python}
+  if(m&&m.settings){const st=m.settings,e=st.eff||st;ctx.max=e.maxBlocks;ctx.forMax=st.forMax;ctx.python=!!st.python;ctx.maxSteps=e.maxSteps||25;ctx.beast=!!st.beast}
   const round=m?m.round:null;
   if(m&&(round!==ST.round||m.gameId!==ST.gameId)){ST.round=round;ST.gameId=m.gameId;ctx.prog=[];ctx.target='main';ST.sent=false;ST.dirty=false}
-  ctx.locked=!m||m.phase!=='plan';
+  const closed=!m||m.phase==='closed';
   const me=m&&m.world?m.world.robots.find(r=>r.id===ST.id):null;
+  ctx.locked=!m||m.phase!=='plan'||!!(me&&me.out);
   const sc=me?me.score:0;
   let rank='';if(m&&m.world&&me){const sorted=m.world.robots.map(r=>r.score).sort((a,b)=>b-a);rank=` · ${sorted.indexOf(sc)+1}. místo z ${m.world.robots.length}`}
   const lead=m&&m.world&&sc>0&&sc===Math.max(...m.world.robots.map(r=>r.score));
   $('sTok').innerHTML=tokenHtml(ST.id||'',null,me?me.ci:0,44,lead);
-  $('sTitle').textContent=m?`Kolo ${m.round}`:'Čekám na hru';
-  $('sSub').textContent=`${sc} ${plural(sc,'mince','mince','mincí')}${rank}`;
+  $('sTitle').textContent=closed?'Aréna':`Kolo ${m.round}`;
+  $('sSub').textContent=`${sc} ${plural(sc,'mince','mince','mincí')}${rank}${me&&me.knife?' · máš nůž':''}${ctx.beast?' · Beast Mode':''}`;
   const s=$('sStatus');s.className='s-status';s.style.display='';
-  if(!m){s.textContent='Učitel ještě neotevřel hru. Počkej chvilku.'}
+  if(closed){s.textContent='Aktuálně neprobíhá žádné kolo.'}
   else if(m.phase==='end'){s.textContent='Hra skončila. Výsledky jsou na tabuli.'}
+  else if(me&&me.out){s.classList.add('run');s.textContent='Jsi vyřazený do konce hry.'}
   else if(m.phase==='run'){s.classList.add('run');s.textContent='Kolo běží. Sleduj tabuli.'}
   else if(ST.sent&&!ST.dirty){s.classList.add('ok');s.textContent='Odesláno ✓'}
   else if(ST.sent&&ST.dirty){s.textContent='Upraveno, pošli znovu.'}
@@ -797,12 +861,14 @@ async function startTeacher(){
   setInterval(()=>{if(!T.running)renderPlayers()},15000);
   window.addEventListener('resize',fitTeacher);
 }
+function ES(){const s=T.set;return s.beast?{maxBlocks:12,maxSteps:50,speed:Math.round(s.speed*0.45)}:{maxBlocks:s.maxBlocks,maxSteps:s.maxSteps,speed:s.speed}}
+function effSet(){return Object.assign({},T.set,ES())}
 function newGameId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function loadMain(m){
-  if(m&&m.world&&m.v===3){
-    T.main=m;T.set=Object.assign({},DEF_SET,m.settings||{});
+  if(m&&m.world&&m.v===3&&m.phase!=='closed'){
+    T.main=m;T.set=Object.assign({},DEF_SET,m.settings||{});if(T.set.sv!==36){T.set.maxSteps=25;T.set.sv=36}
     const mp=MAPS[m.world.map]||MAPS[0];
-    T.world={W:GW,H:GH,map:m.world.map,total:m.world.total,walls:mirror(mp.walls,GW,GH),coins:new Set(m.world.coins),robots:m.world.robots.map(r=>Object.assign({},r,{rot:r.d*90}))};
+    T.world={W:GW,H:GH,map:m.world.map,total:m.world.total,walls:mirror(mp.walls,GW,GH),coins:new Set(m.world.coins),big:new Set(m.world.big||[]),knives:new Set(m.world.knives||[]),robots:m.world.robots.map(r=>Object.assign({},r,{rot:r.d*90}))};
   }else{newGame(false);saveMain()}
   syncRobots();fitTeacher();renderTeacher();
 }
@@ -810,16 +876,18 @@ function newGame(save=true){
   const mp=MAPS[T.set.map]||MAPS[0];
   const old=T.world?T.world.robots:[];
   T.world={W:GW,H:GH,map:T.set.map,walls:mirror(mp.walls,GW,GH),coins:mirror(mp.coins,GW,GH),robots:[]};
+  T.world.big=T.set.beast?new Set([...mirror(mp.big||[],GW,GH)].filter(k=>T.world.coins.has(k))):new Set();
+  T.world.knives=T.set.beast?mirror(mp.knife||[],GW,GH):new Set();
   T.world.total=T.world.coins.size;
-  for(const r of old){const n=Object.assign({},r,{score:0});placeRobot(T.world,n);T.world.robots.push(n)}
+  for(const r of old){const n=Object.assign({},r,{score:0,knife:false,out:false});placeRobot(T.world,n);T.world.robots.push(n)}
   T.main={v:3,gameId:newGameId(),phase:'plan',round:1,settings:Object.assign({},T.set),world:null};
-  T.trails=null;T.fx=null;T.last={};
+  T.trails=null;T.fx=null;T.last={};T.replay=null;
   if(save)saveMain();
 }
 function perimeter(W,H){const p=[];for(let x=0;x<W;x++)p.push([x,0]);for(let y=1;y<H;y++)p.push([W-1,y]);for(let x=W-2;x>=0;x--)p.push([x,H-1]);for(let y=H-2;y>0;y--)p.push([0,y]);return p}
 function placeRobot(w,r){
   let best=null,bd=-1;
-  for(const [x,y] of perimeter(w.W,w.H)){const k=x+','+y;if(w.walls.has(k)||w.coins.has(k)||robotAt(w,x,y))continue;
+  for(const [x,y] of perimeter(w.W,w.H)){const k=x+','+y;if(w.walls.has(k)||w.coins.has(k)||(w.knives&&w.knives.has(k))||robotAt(w,x,y))continue;
     let d=99;for(const o of w.robots)d=Math.min(d,Math.abs(o.x-x)+Math.abs(o.y-y));if(d>bd){bd=d;best=[x,y]}}
   if(!best){outer:for(let y=0;y<w.H;y++)for(let x=0;x<w.W;x++)if(!blocked(w,x,y)&&!robotAt(w,x,y)&&!w.coins.has(x+','+y)){best=[x,y];break outer}}
   const [x,y]=best||[0,0];r.x=x;r.y=y;r.d=y===0?2:y===w.H-1?0:x===0?1:3;r.rot=r.d*90;
@@ -839,15 +907,24 @@ function syncRobots(){
     else if(ex.bot&&ex.lvl!==o.lvl){ex.lvl=o.lvl;ch=true}}
   if(ch){T.trails=null;saveMainSoon()}
 }
-function worldDoc(){const w=T.world;return {map:w.map,total:w.total,coins:[...w.coins],robots:w.robots.map(r=>({id:r.id,label:r.label,x:r.x,y:r.y,d:r.d,score:r.score,ci:r.ci,bot:!!r.bot,lvl:r.lvl||null}))}}
-function saveMain(){clearTimeout(T.saveT);T.main.world=worldDoc();T.main.settings=Object.assign({},T.set);T.main.updatedAt=Date.now();return B.setMain(JSON.parse(JSON.stringify(T.main))).catch(e=>{console.warn(e);toast('Nepodařilo se uložit stav hry.')})}
+function worldDoc(){const w=T.world;return {map:w.map,total:w.total,coins:[...w.coins],big:[...(w.big||[])],knives:[...(w.knives||[])],robots:w.robots.map(r=>({id:r.id,label:r.label,x:r.x,y:r.y,d:r.d,score:r.score,ci:r.ci,bot:!!r.bot,lvl:r.lvl||null,knife:!!r.knife,out:!!r.out}))}}
+function saveMain(){clearTimeout(T.saveT);T.main.world=worldDoc();T.main.settings=Object.assign({},T.set,{eff:ES()});T.main.updatedAt=Date.now();return B.setMain(JSON.parse(JSON.stringify(T.main))).catch(e=>{console.warn(e);toast('Nepodařilo se uložit stav hry.')})}
 function saveMainSoon(){clearTimeout(T.saveT);T.saveT=setTimeout(saveMain,700)}
 function leaders(w){const m=Math.max(0,...w.robots.map(r=>r.score));return new Set(m>0?w.robots.filter(r=>r.score===m).map(r=>r.id):[])}
 function sentNow(id){const p=T.programs[id];return !!p&&p.round===T.main.round&&(!p.gameId||p.gameId===T.main.gameId)}
-function fitTeacher(){if(!T.world)return;const sh=$('tSheet');const full=sh.classList.contains('full');tB.fit(sh.clientWidth-(full?40:32),sh.clientHeight-(full?50:64));renderBoardT()}
-function renderBoardT(){if(T.world)tB.render(T.world,T.trails,T.fx,leaders(T.world),true)}
-function renderTeacher(){if(!T.main||!T.world)return;renderBar();renderPlayers();renderBoardT();
-  $('tLegend').textContent=`Mapa: ${MAPS[T.world.map].name} · ${T.world.robots.length} ${plural(T.world.robots.length,'robot','roboti','robotů')}`}
+function fitTeacher(){if(!T.world)return;const sh=$('tSheet');const full=sh.classList.contains('full');tB.fit(sh.clientWidth-(full?40:32),sh.clientHeight-(full?50:96));renderBoardT()}
+function renderBoardT(){if(!T.world)return;const rp=T.replay;if(rp&&rp.k<rp.frames.length-1&&!T.running){renderFrame();return}tB.render(T.world,T.trails,T.fx,leaders(T.world),true);renderReplay()}
+function snapFrame(w,fx){return {robots:w.robots.map(r=>Object.assign({},r)),coins:[...w.coins],big:[...(w.big||[])],knives:[...(w.knives||[])],fx:Object.assign({},fx||{})}}
+function renderFrame(){const rp=T.replay,f=rp.frames[rp.k];const w={W:GW,H:GH,walls:T.world.walls,coins:new Set(f.coins),big:new Set(f.big||[]),knives:new Set(f.knives||[]),robots:f.robots};
+  const tr=f.robots.map((r,i)=>rp.frames.slice(0,rp.k+1).map(fr=>fr.robots[i]?fr.robots[i].x+','+fr.robots[i].y:null).filter(Boolean));
+  tB.render(w,tr,rp.k?f.fx:null,leaders(w),true);renderReplay()}
+function renderReplay(){const rp=T.replay;const has=rp&&rp.frames.length>1&&!T.running;
+  $('rpPrev').disabled=!has||rp.k<=0;$('rpNext').disabled=!has||rp.k>=rp.frames.length-1;
+  $('rpLabel').innerHTML=has?`Krok <b>${rp.k}</b> / ${rp.frames.length-1}`:'Krokování po kole'}
+function replayGo(d){const rp=T.replay;if(!rp||T.running)return;const k=Math.max(0,Math.min(rp.frames.length-1,rp.k+d));if(k===rp.k)return;rp.k=k;renderBoardT()}
+$('rpPrev').onclick=()=>replayGo(-1);$('rpNext').onclick=()=>replayGo(1);
+function renderTeacher(){if(!T.main||!T.world)return;$('vTeacher').classList.toggle('beast',!!T.set.beast);$('tbBeast').textContent=T.set.beast?'Back to normal':'Beast Mode';renderBar();renderPlayers();renderBoardT();
+  $('tLegend').textContent=`Mapa: ${MAPS[T.world.map].name}`}
 function renderBar(){
   const m=T.main,w=T.world;const studs=Object.keys(T.players);const sent=studs.filter(sentNow).length;
   $('tStats').innerHTML=`<div class="stat"><small>Kolo</small><b>${m.round}</b></div><div class="stat"><small>Odesláno</small><b>${sent} / ${studs.length}</b></div><div class="stat"><small>Mince na mapě</small><b>${w.coins.size} / ${w.total}</b></div>`;
@@ -875,11 +952,11 @@ function renderPlayers(){
   for(const id of ids){
     const p=T.players[id];const r=T.world?T.world.robots.find(x=>x.id===id):null;
     const online=Date.now()-(p.beat||0)<120000;const s=sentNow(id);
-    h+=`<div class="prow${online?'':' off'}" title="${s?'Program odeslán':'Program zatím neodeslán'}${online?'':' · offline'}"><div class="prow-h"><span class="dot${s?' ok':''}"></span><span class="chip" style="background:${colorOf(r?r.ci:0)}">${id}</span>${lead.has(id)?crownI:''}<span class="gap"></span><span class="sc">${r?r.score:0}</span>
+    h+=`<div class="prow${online&&!(r&&r.out)?'':' off'}${r&&r.out?' out':''}" title="${r&&r.out?'Vyřazen do konce hry':s?'Program odeslán':'Program zatím neodeslán'}${online?'':' · offline'}"><div class="prow-h"><span class="dot${s?' ok':''}"></span><span class="chip" style="background:${colorOf(r?r.ci:0)}">${id}</span>${lead.has(id)?crownI:''}${r&&r.knife?knifeSvg('kn'):''}<span class="gap"></span><span class="sc">${r?r.score:0}</span>
       <button class="mini" data-pv="${id}" title="Program z minulého kola" aria-label="Program">${ic('code')}</button><button class="mini" data-kick="${id}" title="Odhlásit žáka" aria-label="Odhlásit žáka">${ic('kick')}</button></div>
       ${T.open[id]?`<div class="prog">${T.last[id]?renderList(null,T.last[id],'x',true)||'<div class="tag">(prázdný program)</div>':'<div class="tag">Program se ukáže po odehraném kole.</div>'}</div>`:''}</div>`;
   }
-  if(T.world){const bots=T.world.robots.filter(r=>r.bot);if(bots.length)h+=`<div class="plhead" style="margin-top:14px"><b>Boti</b><span>${bots.length}</span></div>`+bots.map(r=>`<div class="prow"><div class="prow-h"><span class="chip" style="background:${colorOf(r.ci)}">${r.label}</span>${lead.has(r.id)?crownI:''}<span class="st">${LVL[r.lvl]||''}</span><span class="sc">${r.score}</span></div></div>`).join('')}
+  if(T.world){const bots=T.world.robots.filter(r=>r.bot);if(bots.length)h+=`<div class="plhead" style="margin-top:14px"><b>Boti</b><span>${bots.length}</span></div>`+bots.map(r=>`<div class="prow${r.out?' off out':''}"><div class="prow-h"><span class="chip" style="background:${colorOf(r.ci)}">${r.label}</span>${lead.has(r.id)?crownI:''}${r.knife?knifeSvg('kn'):''}<span class="st">${r.out?'vyřazen':LVL[r.lvl]||''}</span><span class="sc">${r.score}</span></div></div>`).join('')}
   $('tPlayers').innerHTML=h;
 }
 $('tPlayers').addEventListener('click',async e=>{
@@ -890,7 +967,7 @@ $('tPlayers').addEventListener('click',async e=>{
 /* ---- botí program ---- */
 function bfs(w,ri,st,targets){
   const key=(x,y,d)=>(y*w.W+x)*4+d;const prev=new Map();const q=[[st.x,st.y,st.d]];prev.set(key(st.x,st.y,st.d),null);
-  const occ=new Set(w.robots.filter(r=>r.i!==ri).map(r=>r.x+','+r.y));let h=0;
+  const occ=new Set(w.robots.filter(r=>r.i!==ri&&!r.out).map(r=>r.x+','+r.y));let h=0;
   while(h<q.length){const [x,y,d]=q[h++];
     if(targets.has(x+','+y)&&!(x===st.x&&y===st.y)){const p=[];let k=key(x,y,d);while(prev.get(k)){const pr=prev.get(k);p.unshift(pr.a);k=pr.k}return {path:p,x,y,d}}
     const nx=x+DX[d],ny=y+DY[d];const opts=[['L',x,y,(d+3)%4],['R',x,y,(d+1)%4]];
@@ -903,13 +980,13 @@ function chainPlan(w,ri,maxA,first,single){const r=w.robots[ri];let st={x:r.x,y:
 function compress(acts,maxB){const out=[];let i=0;
   while(i<acts.length){let j=i;while(j<acts.length&&acts[j]===acts[i]&&j-i<9)j++;const run=j-i;if(run>=3){out.push(mk('REP',{n:run,body:[mk(acts[i])]}));i=j}else{out.push(mk(acts[i]));i++}}
   const res=[];let used=0;for(const b of out){const c=cost(b);if(used+c>maxB)break;res.push(b);used+=c}return res}
-function soloScore(w,ri,prog){const c={W:w.W,H:w.H,walls:w.walls,coins:new Set(w.coins),robots:w.robots.map(r=>Object.assign({},r))};const g=exec(prog,c,ri);const s0=c.robots[ri].score;
-  for(let s=0;s<T.set.maxSteps;s++){const v=g.next();if(v.done)break;const a=[];a[ri]=v.value;stepWorld(c,a,[ri])}
+function soloScore(w,ri,prog){const c={W:w.W,H:w.H,walls:w.walls,coins:new Set(w.coins),big:new Set(w.big||[]),knives:new Set(w.knives||[]),robots:w.robots.map(r=>Object.assign({},r))};const g=exec(prog,c,ri);const s0=c.robots[ri].score;
+  for(let s=0;s<ES().maxSteps;s++){const v=g.next();if(v.done)break;const a=[];a[ri]=v.value;stepWorld(c,a,[ri])}
   const r=c.robots[ri];let best=99;for(const k of c.coins){const [x,y]=k.split(',').map(Number);best=Math.min(best,Math.abs(x-r.x)+Math.abs(y-r.y))}return (c.robots[ri].score-s0)*100-best}
-function randomProg(){const out=[];let used=0;while(used<T.set.maxBlocks){const p=Math.random();
-  if(p<0.25&&used+2<=T.set.maxBlocks){out.push(mk('REP',{n:2+Math.floor(Math.random()*3),body:[mk('F')]}));used+=2}else{out.push(mk(p<0.65?'F':p<0.82?'L':'R'));used++}}return out}
+function randomProg(){const out=[];let used=0;const mb=ES().maxBlocks;while(used<mb){const p=Math.random();
+  if(p<0.25&&used+2<=mb){out.push(mk('REP',{n:2+Math.floor(Math.random()*3),body:[mk('F')]}));used+=2}else{out.push(mk(p<0.65?'F':p<0.82?'L':'R'));used++}}return out}
 function botProgram(w,ri){
-  const lvl=w.robots[ri].lvl,S=T.set;
+  const lvl=w.robots[ri].lvl,S=effSet();if(w.robots[ri].out)return [];
   if(lvl==='zacatecnik'){if(Math.random()<0.5)return randomProg();return compress(chainPlan(w,ri,S.maxSteps,null,true),Math.max(2,Math.floor(S.maxBlocks/2)))}
   if(lvl==='stredni')return compress(chainPlan(w,ri,S.maxSteps,null,true),S.maxBlocks);
   const cands=[compress(chainPlan(w,ri,S.maxSteps*2),S.maxBlocks)];const r=w.robots[ri];
@@ -922,26 +999,29 @@ async function runRound(){
   if(T.running||!T.main||T.main.phase!=='plan')return;
   T.running=true;const w=T.world;
   w.robots.forEach((r,i)=>r.i=i);
-  const progs=w.robots.map((r,i)=>r.bot?botProgram(w,i):(sentNow(r.id)?sanitize(T.programs[r.id].prog,T.set):[]));
+  const E=effSet();const progs=w.robots.map((r,i)=>r.out?[]:r.bot?botProgram(w,i):(sentNow(r.id)?sanitize(T.programs[r.id].prog,E):[]));
   T.last={};w.robots.forEach((r,i)=>{if(!r.bot)T.last[r.id]=progs[i]});
   T.main.phase='run';saveMain();renderBar();
   const sh=$('tSheet');sh.classList.add('full');fitTeacher();
-  T.trails=w.robots.map(r=>[r.x+','+r.y]);T.fx=null;renderBoardT();
+  T.replay=null;T.trails=w.robots.map(r=>[r.x+','+r.y]);T.fx=null;renderBoardT();
+  const frames=[snapFrame(w)];
   const cd=$('tCountdown');cd.classList.add('on');
   for(const n of [3,2,1]){cd.textContent=n;await sleep(800)}
   cd.classList.remove('on');await sleep(1000);
   const gens=progs.map((p,i)=>exec(p,w,i));const done=w.robots.map(()=>false);
-  for(let step=0;step<T.set.maxSteps;step++){
+  for(let step=0;step<E.maxSteps;step++){
     const acts=gens.map((g,i)=>{if(done[i])return null;const v=g.next();if(v.done){done[i]=true;return null}return v.value});
     if(done.every(Boolean))break;
     const order=w.robots.map((_,k)=>(k+step+T.main.round)%w.robots.length);
     const ev=[];stepWorld(w,acts,order,ev);
     w.robots.forEach((r,i)=>T.trails[i].push(r.x+','+r.y));
-    T.fx={};for(const e of ev){if(e.t==='bump'||e.t==='stuck'||e.t==='weak')T.fx[e.a]='bump';if(e.t==='push')T.fx[e.b]='pushed'}
-    renderBoardT();await sleep(T.set.speed);
+    T.fx={};for(const e of ev){if(e.t==='bump'||e.t==='stuck'||e.t==='weak')T.fx[e.a]='bump';if(e.t==='push')T.fx[e.b]='pushed';if(e.t==='clash'){T.fx[e.a]='bump';T.fx[e.b]='bump'}}
+    frames.push(snapFrame(w,T.fx));
+    renderBoardT();await sleep(E.speed);
     if(!w.coins.size)break;
   }
   T.fx=null;renderBoardT();await sleep(1300);
+  T.replay={frames,k:frames.length-1};
   sh.classList.remove('full');
   T.main.round++;T.main.phase=w.coins.size?'plan':'end';
   T.running=false;
@@ -962,14 +1042,11 @@ function showEnd(){
 $('tSettings').onclick=()=>{
   const s=T.set;const sel=(v,o)=>o.map(([k,l])=>`<option value="${k}"${String(v)===String(k)?' selected':''}>${l}</option>`).join('');
   const num=(id,v,a,b)=>`<input type="number" id="${id}" value="${v}" min="${a}" max="${b}">`;
-  $('mSet').innerHTML=`<h2>Nastavení hry</h2><p class="sub">Změny programu se projeví od dalšího kola, mapa po kliknutí na Nová hra.</p>
+  $('mSet').innerHTML=`<h2>Nastavení hry</h2><p class="sub">Změny programu se projeví od dalšího kola, mapa po kliknutí na Nová hra pod hrací plochou.</p>
   <h3>Hra</h3>
   <div class="frow"><label>Mapa</label><select id="sMap">${sel(s.map,MAPS.map((m,i)=>[i,m.name]))}</select></div>
   <div class="frow"><label>Boti<small>Doplní hru o počítačové hráče.</small></label>${num('sBots',s.bots,0,13)}</div>
   <div class="frow"><label>Obtížnost botů</label><select id="sLvl">${sel(s.botLvl,[['mix','Mix (po třetinách)'],['zacatecnik','Začátečníci'],['stredni','Střední'],['chytry','Chytří']])}</select></div>
-  <div class="frow"><label>Zamíchat mince<small>Zbývající mince se přesunou na náhodná volná pole.</small></label><button class="btn" id="sShuffle">Zamíchat teď</button></div>
-  <div class="frow"><label>Nová hra<small>Mince a skóre od začátku, žáci zůstávají připojení.</small></label><button class="btn" id="sNew">${ic('refresh')}Nová hra</button></div>
-  <div class="frow"><label>Odhlásit všechny žáky</label><button class="btn" id="sKickAll">${ic('kick')}Odhlásit</button></div>
   <h3>Program žáků</h3>
   <div class="frow"><label>Příkazů v programu</label>${num('sBlocks',s.maxBlocks,3,16)}</div>
   <div class="frow"><label>Příkazů v jednom cyklu</label>${num('sFor',s.forMax,1,6)}</div>
@@ -979,22 +1056,29 @@ $('tSettings').onclick=()=>{
   <div class="frow"><label>Rychlost přehrávání</label><select id="sSpeed">${sel(s.speed,[[900,'Pomalá'],[600,'Střední'],[350,'Rychlá']])}</select></div>
   <div class="mfoot"><button class="btn" data-close>Zrušit</button><button class="btn primary" id="sSave">Uložit</button></div>`;
   $('mSet').querySelector('[data-close]').onclick=()=>$('ovSet').classList.remove('show');
-  $('sShuffle').onclick=()=>{if(T.running)return;shuffleCoins(T.world);saveMain();renderTeacher();$('ovSet').classList.remove('show');toast('Mince jsou zamíchané.')};
-  $('sNew').onclick=()=>{if(T.running)return;readSet();newGame();syncRobots();fitTeacher();renderTeacher();$('ovSet').classList.remove('show');toast('Nová hra připravená.')};
-  $('sKickAll').onclick=async()=>{const ids=Object.keys(T.players);for(const id of ids)await B.kick(id).catch(()=>{});$('ovSet').classList.remove('show');toast(`Odhlášeno žáků: ${ids.length}.`)};
   $('sSave').onclick=()=>{readSet();syncRobots();saveMain();renderTeacher();$('ovSet').classList.remove('show');if(T.set.map!==T.world.map)toast('Mapa se změní po kliknutí na Nová hra.')};
   $('ovSet').classList.add('show');
 };
+async function kickAll(){const ids=Object.keys(T.players);for(const id of ids)await B.kick(id).catch(()=>{});return ids.length}
+function startNew(){newGame();syncRobots();fitTeacher();renderTeacher()}
+$('tbBeast').onclick=()=>{if(T.running||!T.main)return;if(T.main.round>1&&T.main.phase!=='end'&&!confirm(T.set.beast?'Vrátit se do normálního režimu? Začne nová hra.':'Zapnout Beast Mode? Začne nová hra.'))return;T.set.beast=!T.set.beast;startNew();toast(T.set.beast?'Beast Mode zapnutý.':'Zpět v normálním režimu.')};
+$('tbShuffle').onclick=()=>{if(T.running||!T.world)return;T.replay=null;shuffleCoins(T.world);saveMain();renderTeacher();toast('Mince jsou zamíchané.')};
+$('tbNew').onclick=()=>{if(T.running||!T.main)return;if(T.main.round>1&&T.main.phase!=='end'&&!confirm('Začít novou hru? Skóre a mince se vrátí na začátek.'))return;startNew();toast('Nová hra připravená.')};
+$('tbNewKick').onclick=async()=>{if(T.running||!T.main)return;if(!confirm('Začít novou hru a odhlásit všechny žáky?'))return;const n=await kickAll();T.players={};startNew();toast(`Nová hra připravená, odhlášeno žáků: ${n}.`)};
+$('tbEnd').onclick=async()=>{if(T.running||!T.main)return;if(!confirm('Ukončit hru? Všichni žáci budou odhlášeni a Správa se zavře.'))return;
+  T.main.phase='closed';await saveMain();await kickAll();ss.del('ucitel');location.href=location.pathname+location.search};
 function readSet(){const v=id=>$(id);const n=(id,a,b)=>Math.max(a,Math.min(b,parseInt(v(id).value)||a));
   Object.assign(T.set,{map:+v('sMap').value,bots:n('sBots',0,13),botLvl:v('sLvl').value,maxBlocks:n('sBlocks',3,16),forMax:n('sFor',1,6),maxSteps:n('sSteps',3,40),python:v('sPy').checked,speed:+v('sSpeed').value})}
-function shuffleCoins(w){const n=w.coins.size;const free=[];for(let y=0;y<w.H;y++)for(let x=0;x<w.W;x++){const k=x+','+y;if(!w.walls.has(k)&&!robotAt(w,x,y))free.push(k)}
-  for(let i=free.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[free[i],free[j]]=[free[j],free[i]]}w.coins=new Set(free.slice(0,n))}
+function shuffleCoins(w){const n=w.coins.size,nb=w.big?w.big.size:0;const free=[];for(let y=0;y<w.H;y++)for(let x=0;x<w.W;x++){const k=x+','+y;if(!w.walls.has(k)&&!robotAt(w,x,y)&&!(w.knives&&w.knives.has(k)))free.push(k)}
+  for(let i=free.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[free[i],free[j]]=[free[j],free[i]]}const nc=free.slice(0,n);w.coins=new Set(nc);w.big=new Set(nc.slice(0,nb))}
 
 /* ===================== Režim a start ===================== */
 function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('sestacode-rezim',t)}catch(e){}document.querySelectorAll('.themeBtn').forEach(b=>b.innerHTML=ic(t==='dark'?'sun':'moon'))}
 document.querySelectorAll('.themeBtn').forEach(b=>b.onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 let th='dark';try{th=localStorage.getItem('sestacode-rezim')||'dark'}catch(e){}setTheme(th);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.show').forEach(o=>{if(o.id!=='ovEnd')o.classList.remove('show')})});
+document.addEventListener('keydown',e=>{
+  if((e.key==='ArrowLeft'||e.key==='ArrowRight')&&$('vTeacher').classList.contains('on')&&!document.querySelector('.overlay.show')&&!/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)){e.preventDefault();replayGo(e.key==='ArrowLeft'?-1:1);return}
+  if(e.key==='Escape')document.querySelectorAll('.overlay.show').forEach(o=>{if(o.id!=='ovEnd')o.classList.remove('show')})});
 
 (function boot(){
   if(ss.get('ucitel',false)){startTeacher();return}
