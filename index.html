@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SestaCode / Aréna</title>
-<!-- Aréna v4.0 · 18. 11. 2026 · SestaCode · Martin Hejhal -->
+<!-- Aréna v4.1 · 18. 11. 2026 · SestaCode · Martin Hejhal -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -135,17 +135,23 @@ body.demo .demo-badge{display:inline-block}
 .bot.has-knife svg.kb{display:block}
 .prow .kn{width:15px;height:15px;fill:var(--text-2);flex:none}
 .prow.out .chip{text-decoration:line-through}
-.btn.beast{border-color:#2EA043;color:#2EA043;background:transparent;font-weight:700}
-#vTeacher.beast .btn.beast{background:#2EA043;color:#000}
-#vTeacher.beast .sheet{background:#000;border-color:#1A7F37}
-#vTeacher.beast .board{background:#000;border-color:#1A7F37}
-#vTeacher.beast .cell{background:#000;border-color:#1E7F3A}
-#vTeacher.beast .cell.wall{background:#0B2A14;border-color:#2EA043;background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(46,160,67,.3) 6px 7px)}
-#vTeacher.beast .bot .arw path{fill:#2EA043!important;stroke-width:13}
+.btn.beast{border-color:#1E7D34;color:#2EA043;background:transparent;font-weight:700}
+body.beast{--text:#E6EDF3;--text-2:#C9D1D9;--muted:#9198A1;--accent-text:#2EA043;--seq-bg:#06162A;--seq-b:#1F6FEB;--seq-t:#79C0FF;--rep-bg:#1F1206;--rep-b:#BD561D;--rep-t:#FFA657;--if-bg:#170E29;--if-b:#8957E5;--if-t:#D2A8FF;--bg-app:#000;--bg-work:#000;--bg-canvas:#000;--bg-subtle:#0B0B0B;--border:#123A1C;--accent-soft:#06200D;
+  --p0:#39FF14;--p1:#00E5FF;--p2:#FF2D95;--p3:#FF3B30;--p4:#2F7BFF;--p5:#FFD60A;--p6:#BF5AF2;--p7:#FF8A00;--p8:#FFFFFF;--p9:#00FFB3;--p10:#3D5AFE;--p11:#FF00FF;--p12:#C6FF00;--p13:#E040FB;--on-p:#000}
+body.beast .card,body.beast .prow,body.beast .modal,body.beast .s-head,body.beast #vTeacher header,body.beast aside,body.beast .t-foot{background:#000}
+#vTeacher.beast .btn.beast{background:#1E7D34;border-color:#1E7D34;color:#000}
+#vTeacher.beast .sheet{background:#000;border-color:#145A26}
+#vTeacher.beast .board{background:#000;border-color:#145A26}
+#vTeacher.beast .cell{background:#000;border-color:#124F22}
+#vTeacher.beast .cell.wall{background:#05170A;border-color:#1E7D34;background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(30,125,52,.38) 6px 7px)}
+#vTeacher.beast .bot .arw path{fill:#1E7D34!important;stroke-width:4}
+#vTeacher.beast .bot.bump .arw path{stroke-width:7}
 #vTeacher.beast .bot .lab{color:#000}
-#vTeacher.beast .coin{background:radial-gradient(circle at 34% 30%,#FFB3C1 0 12%,#B0243F 34%,#6A1024 72%,#3E0714 100%);border-color:#2A0510}
-#vTeacher.beast .legend,#vTeacher.beast .tools .stepl{color:#3FB950}
-#vTeacher.beast .count{background:rgba(0,0,0,.5);color:#3FB950}
+#vTeacher.beast .coin{background:radial-gradient(circle at 34% 30%,#FF9AA8 0 10%,#F0102F 30%,#A3001A 68%,#50000C 100%);border-color:#2B0006}
+#vTeacher.beast .knife{left:6%;top:6%;width:88%;height:88%;fill:#E6EDF3;stroke:#8B949E}
+#vTeacher.beast .bot svg.kb{width:54%;height:54%;right:-16%;top:-16%}
+#vTeacher.beast .legend,#vTeacher.beast .tools .stepl{color:#2EA043}
+#vTeacher.beast .count{background:rgba(0,0,0,.55);color:#2EA043}
 .tag{font-size:11px;color:var(--muted)}
 .add{min-height:38px;border:1px dashed var(--border);border-radius:8px;display:flex;align-items:center;padding:0 12px;font-size:13px;color:var(--muted);cursor:pointer;background:transparent;text-align:left;width:100%}
 .add:hover{border-color:var(--muted)}
@@ -269,7 +275,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
       <div style="margin-top:12px;display:flex;gap:8px"><button class="btn primary" id="tutRun"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Spustit</button><button class="btn" id="tutAgain" style="display:none">Opakovat</button><span class="steps" id="tutSteps" style="margin-left:auto;align-self:center"></span></div>
     </div>
     <button class="sprava" id="toTeacher">Správa</button>
-    <div class="s-foot">Aréna · 2026 · verze 4.0 · Created by Martin Hejhal.</div>
+    <div class="s-foot">Aréna · 2026 · verze 4.1 · Created by Martin Hejhal.</div>
   </div>
 </div>
 
@@ -291,7 +297,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
         <div id="gPy"></div>
       </div>
     </div>
-    <div class="s-foot">Aréna · 2026 · verze 4.0 · Created by Martin Hejhal. <span class="demo-badge">ukázkový režim</span></div>
+    <div class="s-foot">Aréna · 2026 · verze 4.1 · Created by Martin Hejhal. <span class="demo-badge">ukázkový režim</span></div>
   </div>
 </div>
 
@@ -328,7 +334,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
       </div></div>
     </div>
   </div>
-  <div class="t-foot">Aréna · 2026 · verze 4.0 · Created by Martin Hejhal.</div>
+  <div class="t-foot">Aréna · 2026 · verze 4.1 · Created by Martin Hejhal.</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -344,7 +350,7 @@ aside{width:236px;flex:none;background:var(--bg-app);border-right:1px solid var(
 
 <script>
 /* ===================== Konfigurace ===================== */
-const VERSION='4.0';
+const VERSION='4.1';
 const FB_CONFIG={
   apiKey:"AIzaSyAdlrwhz0dkTKl9pYi6VYe1fxENhNM7J0o",
   authDomain:"sestacode-arena.firebaseapp.com",
@@ -366,7 +372,8 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
 /* barvy 14–29 pro větší třídy */
 (()=>{let d='',l='';for(let i=14;i<30;i++){const h=Math.round((i*137.5)%360);d+=`--p${i}:hsl(${h} 62% 66%);`;l+=`--p${i}:hsl(${h} 60% 36%);`}
-  const st=document.createElement('style');st.textContent=`:root,[data-theme="dark"]{${d}}[data-theme="light"]{${l}}`;document.head.appendChild(st)})();
+  let bz='';for(let i=14;i<30;i++)bz+=`--p${i}:hsl(${Math.round((i*137.5)%360)} 100% 55%);`;
+  const st=document.createElement('style');st.textContent=`:root,[data-theme="dark"]{${d}}[data-theme="light"]{${l}}body.beast{${bz}}`;document.head.appendChild(st)})();
 
 /* ===================== Ikony ===================== */
 const IC={
@@ -800,12 +807,13 @@ function startStudent(){
 }
 function leaveStudent(msg){
   ST.unsub.forEach(u=>{try{u()}catch(e){}});ST.unsub=[];clearInterval(ST.beatT);
-  ST.id=null;ls.del('me');ED.game.prog=[];ED.game.target='main';
+  ST.id=null;ls.del('me');document.body.classList.remove('beast');ED.game.prog=[];ED.game.target='main';
   show('vStart');$('jErr').textContent=msg||'';
 }
 function studentMain(){
   const m=ST.main,ctx=ED.game;
   if(m&&m.settings){const st=m.settings,e=st.eff||st;ctx.max=e.maxBlocks;ctx.forMax=st.forMax;ctx.python=!!st.python;ctx.maxSteps=e.maxSteps||25;ctx.beast=!!st.beast}
+  document.body.classList.toggle('beast',!!(m&&m.settings&&m.settings.beast&&m.phase!=='closed'));
   const round=m?m.round:null;
   if(m&&(round!==ST.round||m.gameId!==ST.gameId)){ST.round=round;ST.gameId=m.gameId;ctx.prog=[];ctx.target='main';ST.sent=false;ST.dirty=false}
   const closed=!m||m.phase==='closed';
@@ -923,7 +931,7 @@ function renderReplay(){const rp=T.replay;const has=rp&&rp.frames.length>1&&!T.r
   $('rpLabel').innerHTML=has?`Krok <b>${rp.k}</b> / ${rp.frames.length-1}`:'Krokování po kole'}
 function replayGo(d){const rp=T.replay;if(!rp||T.running)return;const k=Math.max(0,Math.min(rp.frames.length-1,rp.k+d));if(k===rp.k)return;rp.k=k;renderBoardT()}
 $('rpPrev').onclick=()=>replayGo(-1);$('rpNext').onclick=()=>replayGo(1);
-function renderTeacher(){if(!T.main||!T.world)return;$('vTeacher').classList.toggle('beast',!!T.set.beast);$('tbBeast').textContent=T.set.beast?'Back to normal':'Beast Mode';renderBar();renderPlayers();renderBoardT();
+function renderTeacher(){if(!T.main||!T.world)return;$('vTeacher').classList.toggle('beast',!!T.set.beast);document.body.classList.toggle('beast',!!T.set.beast);$('tbBeast').textContent=T.set.beast?'Back to normal':'Beast Mode';renderBar();renderPlayers();renderBoardT();
   $('tLegend').textContent=`Mapa: ${MAPS[T.world.map].name}`}
 function renderBar(){
   const m=T.main,w=T.world;const studs=Object.keys(T.players);const sent=studs.filter(sentNow).length;
